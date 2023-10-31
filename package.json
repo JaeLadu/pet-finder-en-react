@@ -1,0 +1,11 @@
+{
+  "name": "pet-finder-en-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:JaeLadu/pet-finder-en-react.git",
+  "author": "Jae <jaeladu1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "firebase-tools": "^12.7.0"
+  }
+}
