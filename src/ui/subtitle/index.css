@@ -1,0 +1,17 @@
+.subtitle {
+   color: black;
+   text-align: center;
+   font-family: Poppins;
+   font-size: 24px;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   margin: 0;
+}
+
+.white {
+   color: white;
+}
+.bold {
+   font-weight: 700;
+}

@@ -1,8 +1,12 @@
-const env = process.env.NODE_ENV;
-console.log(env);
-console.log("hola");
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+import { router } from "router";
 
-const messagediv = document.querySelector("#message");
-const extra = document.createElement("div");
-extra.textContent = "Soy el extra";
-messagediv!.append(extra);
+const root = createRoot(document.querySelector(".root")!);
+root.render(
+   <RecoilRoot>
+      <RouterProvider router={router} />
+   </RecoilRoot>
+);
