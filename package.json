@@ -1,11 +1,31 @@
 {
-  "name": "pet-finder-en-react",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:JaeLadu/pet-finder-en-react.git",
-  "author": "Jae <jaeladu1@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "firebase-tools": "^12.7.0"
-  }
+   "name": "pet-finder-en-react",
+   "version": "1.0.0",
+   "main": "index.js",
+   "repository": "git@github.com:JaeLadu/pet-finder-en-react.git",
+   "author": "Jae <jaeladu1@gmail.com>",
+   "license": "MIT",
+   "scripts": {
+      "dev": "webpack --node-env development",
+      "build": "webpack"
+   },
+   "dependencies": {
+      "css-loader": "^6.8.1",
+      "firebase-tools": "^12.7.0",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-router-dom": "^6.16.0",
+      "recoil": "^0.7.7",
+      "style-loader": "^3.3.3",
+      "ts-loader": "^9.4.4",
+      "typescript": "^5.2.2",
+      "webpack": "^5.88.2",
+      "webpack-cli": "^5.1.4"
+   },
+   "devDependencies": {
+      "@types/react": "^18.2.24",
+      "@types/react-dom": "^18.2.8",
+      "live-server": "^1.2.2",
+      "tsconfig-paths-webpack-plugin": "^4.1.0"
+   }
 }
