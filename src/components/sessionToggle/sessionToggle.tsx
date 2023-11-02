@@ -24,7 +24,7 @@ function SessionToggle() {
    if (userEmail) {
       return (
          <div className={css.root}>
-            <Caption text={userEmail} white={true} />
+            <Caption text={userEmail} />
             <LinkText onClick={closeSession} target="/" text="Cerrar sesión" />
          </div>
       );

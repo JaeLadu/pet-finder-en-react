@@ -21,7 +21,7 @@ function Menu() {
             {links.map((link) => {
                return (
                   <Link className={css.link} to={link.to} key={link.to}>
-                     <Subtitle text={link.text} white={true} bold={true} />
+                     <Subtitle text={link.text} color="white" bold={true} />
                   </Link>
                );
             })}

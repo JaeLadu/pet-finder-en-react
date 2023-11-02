@@ -1,10 +1,10 @@
 import React from "react";
 import css from "./caption.css";
 
-function Caption(props: { text?: string; white?: boolean }) {
+function Caption(props: { text?: string; color?: "white" | "black" }) {
    let classNameArr = [css.caption];
-   if (props.white == true) {
-      classNameArr.push(css.white);
+   if (props.color) {
+      classNameArr.push(css[props.color]);
    }
 
    const finalName = classNameArr.join(" ");
