@@ -1,5 +1,5 @@
 import React from "react";
-import css from "./index.css";
+import css from "./subtitle.css";
 
 function Subtitle(props: { text?: string; white?: boolean; bold?: boolean }) {
    let classNameArr = [css.subtitle];

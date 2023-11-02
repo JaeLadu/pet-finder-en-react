@@ -1,5 +1,5 @@
 import React from "react";
-import css from "./index.css";
+import css from "./burguerMenu.css";
 import { headerMenuState } from "hooks";
 import { useSetRecoilState } from "recoil";
 

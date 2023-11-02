@@ -1,11 +1,11 @@
 import React from "react";
-import css from "./index.css";
+import css from "./header.css";
 import { Outlet } from "react-router-dom";
 import { Logo } from "ui/logo";
-import { Burguer } from "ui/burguer-menu";
+import { Burguer } from "ui/burguer-menu/burguerMenu";
 import { useRecoilValue } from "recoil";
 import { headerMenuState } from "hooks";
-import { Menu } from "components/menu";
+import { Menu } from "components/menu/menu";
 
 function Header() {
    const headerMenuOpen = useRecoilValue(headerMenuState);

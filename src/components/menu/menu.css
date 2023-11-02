@@ -28,10 +28,7 @@
 .link {
    text-decoration: none;
 }
-.li {
-   list-style: none;
-}
-.menu__session-container {
+.sessioncontainer {
    display: flex;
    flex-direction: column;
    text-align: center;

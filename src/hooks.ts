@@ -5,4 +5,14 @@ const headerMenuState = atom({
    default: false,
 });
 
-export { headerMenuState };
+const userEmailState = atom({
+   key: "userEmailState",
+   default: "",
+});
+
+const userTokenState = atom({
+   key: "userTokenState",
+   default: "",
+});
+
+export { headerMenuState, userEmailState, userTokenState };
