@@ -8,7 +8,7 @@ function Caption(props: { text?: string; color?: "white" | "black" }) {
    }
 
    const finalName = classNameArr.join(" ");
-   return <h3 className={finalName}>{props.text || "Caption"}</h3>;
+   return <span className={finalName}>{props.text || "Caption"}</span>;
 }
 
 export { Caption };

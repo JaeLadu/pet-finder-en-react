@@ -19,8 +19,8 @@ const userTokenState = atom({
 const userLocationState = atom({
    key: "userLocationState",
    default: {
-      lat: "-31.42018385939361",
-      lng: "-64.50775531330464",
+      lat: "",
+      lng: "",
    },
 });
 
@@ -28,10 +28,25 @@ const petsInAreaState = atom({
    key: "petsInAreaState",
    default: [
       {
-         id: "",
+         id: 0,
          name: "",
          imageUrl: "",
-         area: "",
+         lat: "",
+         lng: "",
+         UserId: "",
+      },
+   ],
+});
+
+const parsedPetsState = atom({
+   key: "parsedPetsState",
+   default: [
+      {
+         id: 0,
+         name: "",
+         img: "",
+         location: "",
+         own: false,
       },
    ],
 });
@@ -42,4 +57,5 @@ export {
    userTokenState,
    userLocationState,
    petsInAreaState,
+   parsedPetsState,
 };

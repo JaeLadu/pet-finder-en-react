@@ -4,8 +4,5 @@
    align-items: center;
    justify-content: space-evenly;
    height: calc(100vh - 85px);
-}
-
-.titlecontainer {
-   width: 50%;
+   padding: 10px;
 }
