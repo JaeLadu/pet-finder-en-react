@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
-const backendUrl = "http://localhost:3002";
+import { atom } from "recoil";
 
 const headerMenuState = atom({
    key: "headerMenuState",

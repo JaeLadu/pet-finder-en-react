@@ -6,6 +6,7 @@ const liveServer = require("live-server");
 if (env == "development") {
    liveServer.start({
       root: "./public",
+      file: "index.html",
    });
 }
 module.exports = {

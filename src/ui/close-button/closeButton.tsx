@@ -5,13 +5,9 @@ import { useSetRecoilState } from "recoil";
 
 function CloseButton() {
    const setMenuValue = useSetRecoilState(headerMenuState);
-   function hideMenu() {
-      setMenuValue(false);
-   }
-
    return (
       <span
-         onClick={hideMenu}
+         onClick={() => setMenuValue(false)}
          className={"material-symbols-outlined " + css.close}
       >
          close

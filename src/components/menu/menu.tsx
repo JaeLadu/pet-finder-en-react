@@ -4,8 +4,12 @@ import { CloseButton } from "ui/close-button/closeButton";
 import css from "./menu.css";
 import { Subtitle } from "ui/subtitle/subtitle";
 import { SessionToggle } from "components/sessionToggle/sessionToggle";
+import { useSetRecoilState } from "recoil";
+import { headerMenuState } from "hooks";
 
 function Menu() {
+   const setMenuValue = useSetRecoilState(headerMenuState);
+
    const links = [
       { to: "profile", text: "Mis datos" },
       { to: "reports", text: "Mis mascotas reportadas" },
@@ -20,7 +24,12 @@ function Menu() {
          <ul className={css.ul}>
             {links.map((link) => {
                return (
-                  <Link className={css.link} to={link.to} key={link.to}>
+                  <Link
+                     onClick={() => setMenuValue(false)}
+                     className={css.link}
+                     to={link.to}
+                     key={link.to}
+                  >
                      <Subtitle text={link.text} color="white" bold={true} />
                   </Link>
                );

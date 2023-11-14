@@ -11,21 +11,24 @@ const backendUrl = "http://localhost:3002";
 function Home() {
    //modificar
    //Chequear si a la verificación de location y a que página renderizar lo puede hacer directamente el router
+   const locationExists = useRecoilValue(userLocationState).lat;
    const pets = useGetPetsInArea();
-   const parsedPets = useParsePets();
    const petsExist = pets[0]?.id;
+   const parsedPets = useParsePets();
+
    const subtitle = petsExist
       ? "Mascotas perdidad cerca"
       : "No hay mascotas perdidas cerca del área que elegiste";
 
-   if (petsExist) {
+   if (locationExists) {
       return (
          <>
             <Subtitle text={subtitle} bold />
-            {petsExist &&
-               parsedPets.map((pet) => {
-                  return <PetCard {...pet} key={pet.id} />;
-               })}
+            {petsExist
+               ? parsedPets.map((pet) => {
+                    return <PetCard {...pet} key={pet.id} />;
+                 })
+               : null}
          </>
       );
    } else {
@@ -37,7 +40,7 @@ function Home() {
             />
             <Title text="Pet Finder App" color="red" />
             <Subtitle text="Encontrá y reportá mascotas perdidas cerca de tu ubicación" />
-            <Button text="Dar mi ubicación actual" target="/" />
+            <Button text="Dar mi ubicación actual" target="choose-location" />
             <Button text="Cómo funciona pet finder?" target="/" color="green" />
          </div>
       );
