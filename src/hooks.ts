@@ -1,7 +1,11 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 const headerMenuState = atom({
    key: "headerMenuState",
+   default: false,
+});
+const reportFormState = atom({
+   key: "reportFormState",
    default: false,
 });
 
@@ -16,9 +20,10 @@ const userTokenState = atom({
 });
 const userLocationState = atom({
    key: "userLocationState",
+   // modificar volver a valores en blanco por defecto
    default: {
-      lat: "",
-      lng: "",
+      lat: "-31.4206811324999",
+      lng: "-64.52184666111962",
    },
 });
 
@@ -49,6 +54,23 @@ const parsedPetsState = atom({
    ],
 });
 
+const selectedPetId = atom({
+   key: "selectedPetId",
+   default: 0,
+});
+
+const currentPet = selector({
+   key: "currentPet",
+   get: ({ get }) => {
+      const id = get(selectedPetId);
+      const pets = get(parsedPetsState);
+
+      const wantedPet = pets.find((pet) => pet.id == id);
+
+      return wantedPet;
+   },
+});
+
 export {
    headerMenuState,
    userEmailState,
@@ -56,4 +78,7 @@ export {
    userLocationState,
    petsInAreaState,
    parsedPetsState,
+   reportFormState,
+   selectedPetId,
+   currentPet,
 };

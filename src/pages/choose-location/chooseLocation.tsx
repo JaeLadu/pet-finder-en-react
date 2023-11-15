@@ -4,8 +4,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { MapBox } from "components/mapbpx/Mapbox";
 import css from "./chooseLocation.css";
 import { Button } from "components/button/button/button";
+import { useNavigate } from "react-router-dom";
 
 export function ChooseLocation() {
+   const navigate = useNavigate();
    return (
       <div className={css.container}>
          <Caption text="Buscá una dirección o punto geográfico cercano a donde estás." />
@@ -20,7 +22,11 @@ export function ChooseLocation() {
             <MapBox />
          </div>
 
-         <Button text="Confirmar" target="/" color="green" />
+         <Button
+            text="Confirmar"
+            handleClick={() => navigate("/")}
+            color="green"
+         />
          <br />
       </div>
    );

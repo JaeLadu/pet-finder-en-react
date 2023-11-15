@@ -5,6 +5,7 @@ import css from "./Mapbox.css";
 import { TextInput } from "components/textInput/textInput";
 import { useSetRecoilState } from "recoil";
 import { userLocationState } from "hooks";
+import { Button } from "components/button/button/button";
 
 //mapbox token
 const ACCESS_TOKEN =
@@ -49,7 +50,9 @@ export function MapBox() {
             }}
          >
             <TextInput name="busqueda" />
-            <button className={css.button}>Buscar</button>
+            <div className={css.button}>
+               <Button handleClick={() => ""} text="Buscar" />
+            </div>
          </form>
          <Map
             onClick={(m, e) => setLocation([e.lngLat.lng, e.lngLat.lat])}

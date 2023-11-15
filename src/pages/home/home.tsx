@@ -6,16 +6,19 @@ import css from "./home.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { parsedPetsState, petsInAreaState, userLocationState } from "hooks";
 import { PetCard } from "components/pet-card/petCard";
+import { useNavigate } from "react-router-dom";
+import { ReportForm } from "components/reportForm/reportForm";
 const backendUrl = "http://localhost:3002";
 
 function Home() {
    //modificar
    //Chequear si a la verificación de location y a que página renderizar lo puede hacer directamente el router
+   const navigate = useNavigate();
    const locationExists = useRecoilValue(userLocationState).lat;
    const pets = useGetPetsInArea();
    const petsExist = pets[0]?.id;
-   const parsedPets = useParsePets();
 
+   const parsedPets = useParsePets();
    const subtitle = petsExist
       ? "Mascotas perdidad cerca"
       : "No hay mascotas perdidas cerca del área que elegiste";
@@ -24,6 +27,7 @@ function Home() {
       return (
          <>
             <Subtitle text={subtitle} bold />
+            <ReportForm petName="Lola" />
             {petsExist
                ? parsedPets.map((pet) => {
                     return <PetCard {...pet} key={pet.id} />;
@@ -40,8 +44,15 @@ function Home() {
             />
             <Title text="Pet Finder App" color="red" />
             <Subtitle text="Encontrá y reportá mascotas perdidas cerca de tu ubicación" />
-            <Button text="Dar mi ubicación actual" target="choose-location" />
-            <Button text="Cómo funciona pet finder?" target="/" color="green" />
+            <Button
+               text="Dar mi ubicación actual"
+               handleClick={() => navigate("choose-location")}
+            />
+            <Button
+               text="Cómo funciona pet finder?"
+               handleClick={() => navigate("/")}
+               color="green"
+            />
          </div>
       );
    }

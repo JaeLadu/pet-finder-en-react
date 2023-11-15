@@ -5,12 +5,10 @@ import css from "./button.css";
 type buttonProps = {
    text?: string;
    color?: "red" | "green" | "black";
-   target: string;
+   handleClick: () => any;
 };
 
-export function Button({ text, color, target }: buttonProps) {
-   const navigate = useNavigate();
-
+export function Button({ text, color, handleClick }: buttonProps) {
    const basicClass = [css.button];
    if (color) {
       basicClass.push(css[color]);
@@ -18,7 +16,7 @@ export function Button({ text, color, target }: buttonProps) {
    const finalClass = basicClass.join(" ");
 
    return (
-      <button className={finalClass} onClick={() => navigate(target)}>
+      <button className={finalClass} onClick={() => handleClick()}>
          {text || "Enviar"}
       </button>
    );
