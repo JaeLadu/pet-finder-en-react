@@ -1,0 +1,16 @@
+.root {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: space-between;
+   height: calc(95vh - 90px);
+}
+
+.buttonscontainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: space-between;
+   width: 70%;
+   height: 20vh;
+}

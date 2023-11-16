@@ -27,7 +27,7 @@ function Home() {
       return (
          <>
             <Subtitle text={subtitle} bold />
-            <ReportForm petName="Lola" />
+            <ReportForm />
             {petsExist
                ? parsedPets.map((pet) => {
                     return <PetCard {...pet} key={pet.id} />;
