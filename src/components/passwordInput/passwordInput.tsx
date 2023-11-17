@@ -4,13 +4,18 @@ import css from "./passwordInput.css";
 
 type props = {
    text?: string;
+   name?: string;
 };
 
-export function PasswordInput({ text }: props) {
+export function PasswordInput({ text, name }: props) {
    return (
       <label className={css.label}>
          {text && <Caption text={text} />}
-         <input className={css.input} type="password" name="password" />
+         <input
+            className={css.input}
+            type="password"
+            name={name || "password"}
+         />
       </label>
    );
 }

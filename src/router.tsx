@@ -8,9 +8,10 @@ import {
 import { Home } from "pages/home/home";
 import { ChooseLocation } from "pages/choose-location/chooseLocation";
 import { Profile } from "pages/profile/profile";
-import { PersonalData } from "pages/personalData/personalData";
+import { PersonalData } from "pages/personal-data/personalData";
 import { Password } from "pages/password/password";
 import { LogIn } from "pages/logIn/logIn";
+import { SignUp } from "pages/sign-up/signUp";
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
          <Route path="/personal-data" element={<PersonalData />}></Route>
          <Route path="/password" element={<Password />}></Route>
          <Route path="/login" element={<LogIn />}></Route>
+         <Route path="/signup" element={<SignUp />}></Route>
       </Route>
    )
 );

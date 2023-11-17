@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import ReactMapboxGl, { Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import css from "./Mapbox.css";
@@ -44,7 +44,6 @@ export function MapBox() {
             className={css.form}
             onSubmit={(e) => {
                e.preventDefault();
-
                getLocationCoordenates(e.target.busqueda.value);
                e.target.busqueda.value = "";
             }}
