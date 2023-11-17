@@ -5,13 +5,19 @@ import css from "./textInput.css";
 type props = {
    text?: string;
    name: string;
+   placeholder?: string;
 };
 
-export function TextInput({ text, name }: props) {
+export function TextInput({ text, name, placeholder }: props) {
    return (
       <label className={css.label}>
          {text && <Caption text={text} />}
-         <input className={css.input} type="text" name={name} />
+         <input
+            className={css.input}
+            type="text"
+            name={name}
+            placeholder={placeholder && placeholder}
+         />
       </label>
    );
 }

@@ -12,11 +12,11 @@ export function Profile() {
          <Title text="Mis datos" />
          <div className={css.buttonscontainer}>
             <Button
-               handleClick={() => navigate("personal-data")}
+               handleClick={() => navigate("/personal-data")}
                text="Modificar datos personales"
             />
             <Button
-               handleClick={() => navigate("password")}
+               handleClick={() => navigate("/password")}
                text="Modificar contraseña"
             />
          </div>

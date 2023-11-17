@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { atom, selector } from "recoil";
 
 const headerMenuState = atom({
@@ -9,49 +10,70 @@ const reportFormState = atom({
    default: false,
 });
 
-const userEmailState = atom({
-   key: "userEmailState",
-   default: "",
+const logInDataState = atom({
+   key: "logInDataState",
+   default: { mail: "", password: "" },
 });
 
-const userTokenState = atom({
+const userTokenState = selector({
    key: "userTokenState",
-   default: "",
+   get: async ({ get }) => {
+      const userData = get(logInDataState);
+      let response = "";
+      if (!userData.mail) return response;
+      else {
+         const result = await fetch(`http://localhost:3002/auth/signin`, {
+            method: "post",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...userData }),
+         });
+
+         const data = await result.json();
+         response = data;
+      }
+      return response;
+   },
 });
 const userLocationState = atom({
    key: "userLocationState",
-   // modificar volver a valores en blanco por defecto
    default: {
-      lat: "-31.4206811324999",
-      lng: "-64.52184666111962",
+      lat: "",
+      lng: "",
    },
 });
 
-const petsInAreaState = atom({
+const petsInAreaState = selector({
    key: "petsInAreaState",
-   default: [
-      {
-         id: 0,
-         name: "",
-         imageUrl: "",
-         lat: "",
-         lng: "",
-         UserId: "",
-      },
-   ],
-});
+   get: async ({ get }) => {
+      const location = get(userLocationState);
+      if (!location.lat) return [];
+      else {
+         const response = await fetch(
+            `http://localhost:3002/reports/location?lat=${location.lat}&lng=${location.lng}`
+         );
+         const data = await response.json();
+         const parsedPets = await Promise.all(
+            data.map(async (pet) => {
+               const areaResponse = await fetch(
+                  //usa la API de mapbox para obtener el nombre del area usando coordenadas
+                  `https://api.mapbox.com/geocoding/v5/mapbox.places/${pet.lng},${pet.lat}.json?access_token=pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A`
+               );
+               const areaData = await areaResponse.json();
 
-const parsedPetsState = atom({
-   key: "parsedPetsState",
-   default: [
-      {
-         id: 0,
-         name: "",
-         img: "",
-         location: "",
-         own: false,
-      },
-   ],
+               return {
+                  id: pet.id,
+                  name: pet.name,
+                  img: pet.imageUrl,
+                  location: areaData.features[2]?.place_name,
+                  own: false,
+               };
+            })
+         );
+         return parsedPets;
+      }
+   },
 });
 
 const selectedPetId = atom({
@@ -63,7 +85,7 @@ const currentPet = selector({
    key: "currentPet",
    get: ({ get }) => {
       const id = get(selectedPetId);
-      const pets = get(parsedPetsState);
+      const pets = get(petsInAreaState);
 
       const wantedPet = pets.find((pet) => pet.id == id);
 
@@ -73,11 +95,10 @@ const currentPet = selector({
 
 export {
    headerMenuState,
-   userEmailState,
+   logInDataState,
    userTokenState,
    userLocationState,
    petsInAreaState,
-   parsedPetsState,
    reportFormState,
    selectedPetId,
    currentPet,
