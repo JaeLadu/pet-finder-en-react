@@ -23,9 +23,15 @@ export function LogIn() {
          <form
             onSubmit={(e) => {
                e.preventDefault();
+               const formData = new FormData(e.target as HTMLFormElement);
+               const data = {
+                  mail: formData.get("mail"),
+                  password: formData.get("password"),
+               };
+
                setUserData({
-                  mail: e.target.mail.value,
-                  password: e.target.password.value,
+                  mail: data.mail?.toString() || "",
+                  password: data.password?.toString() || "",
                });
             }}
             className={css.form}

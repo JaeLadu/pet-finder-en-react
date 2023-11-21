@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Header } from "components/header/header";
 import {
    Route,
@@ -12,6 +12,7 @@ import { PersonalData } from "pages/personal-data/personalData";
 import { Password } from "pages/password/password";
 import { LogIn } from "pages/logIn/logIn";
 import { SignUp } from "pages/sign-up/signUp";
+import { CreateReport } from "pages/report/report";
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
          <Route path="/password" element={<Password />}></Route>
          <Route path="/login" element={<LogIn />}></Route>
          <Route path="/signup" element={<SignUp />}></Route>
+         <Route path="/report" element={<CreateReport />}></Route>
       </Route>
    )
 );

@@ -39,8 +39,7 @@ export const userTokenState = selector({
          });
 
          const data = await result.json();
-         // eliminar
-         response = data.token || "token de mentira";
+         response = data.token;
       } else {
          const result = await fetch(`http://localhost:3002/auth/signin`, {
             method: "post",
@@ -58,6 +57,7 @@ export const userTokenState = selector({
       return response;
    },
 });
+
 export const userLocationState = atom({
    key: "userLocationState",
    default: {
