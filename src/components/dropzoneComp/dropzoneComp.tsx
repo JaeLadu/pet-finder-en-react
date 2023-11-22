@@ -4,9 +4,9 @@ import Dropzone from "react-dropzone";
 import { dropzone, img, thumbnail, thumbnailContainer } from "./dropzoneStyles";
 
 type props = {
-   handleFile: (file: any) => any;
+   handleFile?: (file: any) => any;
 };
-export function DropzoneComp({ handleFile }: props) {
+export function DropzoneComp({ handleFile = ()=>{} }: props) {
    const [file, setFile] = useState({});
    useEffect(() => {
       // Necesario para que las thumbnails no generen errores en dropzone

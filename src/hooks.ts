@@ -1,4 +1,9 @@
-import { atom, selector } from "recoil";
+import { useEffect } from "react";
+import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
+
+//mapbox token
+const ACCESS_TOKEN =
+   "pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A";
 
 export const headerMenuState = atom({
    key: "headerMenuState",
@@ -65,6 +70,44 @@ export const userLocationState = atom({
       lng: "",
    },
 });
+
+export const userSearchLocationState = atom({
+   key: "userSearchLocationState",
+   default: "",
+});
+
+export const userSearchCoordinatesState = selector({
+   key: "userSearchCoordinatesState",
+   get: async ({ get }) => {
+      const search = get(userSearchLocationState);
+      if (search) {
+         const response = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${ACCESS_TOKEN}`
+         );
+         const data = await response.json();
+         return {
+            lng: data.features[0].center[1],
+            lat: data.features[0].center[0],
+         };
+      } else {
+         return {
+            lng: "",
+            lat: "",
+         };
+      }
+   },
+});
+
+export function useChangeLocationFromString() {
+   const setLocation = useSetRecoilState(userLocationState);
+   const search = useRecoilValue(userSearchLocationState);
+   const coordinates = useRecoilValue(userSearchCoordinatesState);
+
+   useEffect(() => {
+      setLocation(coordinates);
+   }, [search]);
+
+}
 
 type rawPet = {
    id: number;
