@@ -6,8 +6,8 @@ import { dropzone, img, thumbnail, thumbnailContainer } from "./dropzoneStyles";
 type props = {
    handleFile?: (file: any) => any;
 };
-export function DropzoneComp({ handleFile = ()=>{} }: props) {
-   const [file, setFile] = useState({});
+export function DropzoneComp({ handleFile = () => {} }: props) {
+   const [file, setFile] = useState({ preview: "", dataURL: "", name: "" });
    useEffect(() => {
       // Necesario para que las thumbnails no generen errores en dropzone
       return URL.revokeObjectURL(file.preview);
@@ -55,7 +55,7 @@ export function DropzoneComp({ handleFile = ()=>{} }: props) {
    );
 }
 
-function getBase64(file: File | Blob) {
+function getBase64(file: File | Blob): Promise<string> {
    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);

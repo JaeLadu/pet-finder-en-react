@@ -27,8 +27,17 @@ export function ChooseLocation() {
             className={css.form}
             onSubmit={(e) => {
                e.preventDefault();
-               setSearch(e.target.busqueda.value);
-               e.target.busqueda.value = "";
+               const busqueda = (
+                  e.currentTarget.elements.namedItem(
+                     "busqueda"
+                  ) as HTMLInputElement
+               ).value;
+               setSearch(busqueda);
+               (
+                  e.currentTarget.elements.namedItem(
+                     "busqueda"
+                  ) as HTMLInputElement
+               ).value = "";
             }}
          >
             <TextInput name="busqueda" />

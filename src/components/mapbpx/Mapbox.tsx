@@ -26,7 +26,7 @@ export function MapBox() {
 
    return (
       <Map
-         onClick={(m, e) => {
+         onClick={(m, e: any) => {
             setUserLocation({ lng: e.lngLat.lat, lat: e.lngLat.lng });
          }}
          style="mapbox://styles/mapbox/streets-v9"

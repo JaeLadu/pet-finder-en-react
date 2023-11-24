@@ -1,5 +1,10 @@
 import { TextInput } from "components/textInput/textInput";
-import React, { useEffect, useState } from "react";
+import React, {
+   FormEvent,
+   ReactEventHandler,
+   useEffect,
+   useState,
+} from "react";
 import { Title } from "ui/title/title";
 import css from "./report.css";
 import { DropzoneComp } from "components/dropzoneComp/dropzoneComp";
@@ -20,12 +25,12 @@ export function CreateReport() {
    const [imageURL, setImageURL] = useState("");
    const [reportObject, setReportObject] = useState({});
    const [backendResponse, setBackendResponse] = useState({});
+   let readyToSendFlag = false;
    let inputString = "";
    const setSearch = useSetRecoilState(userSearchLocationState);
    useChangeLocationFromString();
 
    async function sendReport() {
-      delete reportObject.readyToSend;
       try {
          const response = await fetch(`${backendURL}/report`, {
             method: "post",
@@ -43,7 +48,7 @@ export function CreateReport() {
    }
 
    useEffect(() => {
-      if (reportObject.readyToSend) {
+      if (readyToSendFlag) {
          sendReport();
       }
    }, [reportObject]);
@@ -55,15 +60,19 @@ export function CreateReport() {
       <div className={css.root}>
          <Title text="Reportar mascota" />
          <form
-            onSubmit={(e) => {
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
                e.preventDefault();
-               if (location.lat && imageURL && e.target.name.value) {
-                  setReportObject({
-                     ...location,
-                     readyToSend: true,
-                     dataURL: imageURL,
-                     name: e.target.name.value,
-                  });
+               const name = (
+                  e.currentTarget.elements.namedItem("name") as HTMLInputElement
+               ).value;
+
+               if (location.lat && imageURL && name) {
+                  (readyToSendFlag = true),
+                     setReportObject({
+                        ...location,
+                        dataURL: imageURL,
+                        name: name,
+                     });
                } else {
                   console.log("falta algo");
                }
@@ -78,7 +87,7 @@ export function CreateReport() {
             />
             <TextInput
                handleInput={(input) => {
-                  inputString = input.target.value;
+                  inputString = (input.target as HTMLInputElement).value;
                }}
                name="search"
             />

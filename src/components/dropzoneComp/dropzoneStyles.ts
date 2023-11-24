@@ -1,4 +1,6 @@
-export const dropzone = {
+import { CSSProperties } from "react";
+
+export const dropzone: CSSProperties = {
    flex: 1,
    display: "flex",
    flexDirection: "column",
@@ -16,20 +18,20 @@ export const dropzone = {
    width: "100%",
 };
 
-export const thumbnailContainer = {
+export const thumbnailContainer: CSSProperties = {
    display: "inline-flex",
    borderRadius: 2,
    width: "100%",
    height: "100%",
    boxSizing: "border-box",
 };
-export const thumbnail = {
+export const thumbnail: CSSProperties = {
    display: "flex",
    minWidth: 0,
    overflow: "hidden",
    justifyContent: "center",
 };
-export const img = {
+export const img: CSSProperties = {
    display: "block",
    width: "auto",
    height: "100%",

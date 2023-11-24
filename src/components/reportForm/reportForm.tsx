@@ -13,12 +13,21 @@ export function ReportForm() {
    const [cssClass, setCssClass] = useState(css.container); //local state, used to change components css display from none to flex and back
    const pet = useRecoilValue(currentPet); //global state used to know wich pet is being reported and all its data
 
-   async function handleSubmit(e: FormEvent) {
+   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
       e.preventDefault();
+      const name = (
+         e.currentTarget.elements.namedItem("name") as HTMLInputElement
+      ).value;
+      const phone = (
+         e.currentTarget.elements.namedItem("phone") as HTMLInputElement
+      ).value;
+      const message = (
+         e.currentTarget.elements.namedItem("message") as HTMLInputElement
+      ).value;
       const data = {
-         name: e.target.name.value,
-         phone: e.target.phone.value,
-         message: e.target.message.value,
+         name: name,
+         phone: phone,
+         message: message,
          id: pet?.id,
       };
 
