@@ -2,6 +2,7 @@ const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const env = process.env.NODE_ENV;
 const liveServer = require("live-server");
+const webpack = require("webpack");
 
 if (env == "development") {
    liveServer.start({
@@ -33,6 +34,11 @@ module.exports = {
          },
       ],
    },
+   plugins: [
+      new webpack.DefinePlugin({
+         "process.env.BACKEND_URL": JSON.stringify(process.env.BACKEND_URL),
+      }),
+   ],
    resolve: {
       extensions: [".tsx", ".ts", ".js"],
       plugins: [new TsconfigPathsPlugin({})],

@@ -6,6 +6,7 @@ import { Caption } from "ui/caption/caption";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { currentPet, reportFormState } from "hooks";
 import css from "./reportForm.css";
+const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function ReportForm() {
    const [show, setShow] = useRecoilState(reportFormState); //global state used to show or hide the component
@@ -21,7 +22,7 @@ export function ReportForm() {
          id: pet?.id,
       };
 
-      const response = await fetch(`http://localhost:3002/report/${data.id}`, {
+      const response = await fetch(`${backendURL}/report/${data.id}`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",

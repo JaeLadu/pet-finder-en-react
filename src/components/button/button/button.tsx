@@ -5,10 +5,16 @@ import css from "./button.css";
 type buttonProps = {
    text?: string;
    color?: "red" | "green" | "black";
-   handleClick: () => any;
+   handleClick?: () => any;
+   type?: "button" | "submit" | "reset" | undefined;
 };
 
-export function Button({ text, color, handleClick }: buttonProps) {
+export function Button({
+   text,
+   color,
+   type,
+   handleClick = () => {},
+}: buttonProps) {
    const basicClass = [css.button];
    if (color) {
       basicClass.push(css[color]);
@@ -16,7 +22,11 @@ export function Button({ text, color, handleClick }: buttonProps) {
    const finalClass = basicClass.join(" ");
 
    return (
-      <button className={finalClass} onClick={() => handleClick()}>
+      <button
+         type={type ? type : "submit"}
+         className={finalClass}
+         onClick={() => handleClick()}
+      >
          {text || "Enviar"}
       </button>
    );

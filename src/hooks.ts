@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
+const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
 //mapbox token
 const ACCESS_TOKEN =
@@ -35,7 +36,7 @@ export const userTokenState = selector({
 
       if (!userData.mail) return response;
       if (newUser) {
-         const result = await fetch(`http://localhost:3002/auth/signup`, {
+         const result = await fetch(`${backendURL}/auth/signup`, {
             method: "post",
             headers: {
                "Content-Type": "application/json",
@@ -46,7 +47,7 @@ export const userTokenState = selector({
          const data = await result.json();
          response = data.token;
       } else {
-         const result = await fetch(`http://localhost:3002/auth/signin`, {
+         const result = await fetch(`${backendURL}/auth/signin`, {
             method: "post",
             headers: {
                "Content-Type": "application/json",
@@ -57,8 +58,6 @@ export const userTokenState = selector({
          const data = await result.json();
          response = data.token;
       }
-      console.log(response);
-
       return response;
    },
 });
@@ -76,7 +75,7 @@ export const userSearchLocationState = atom({
    default: "",
 });
 
-export const userSearchCoordinatesState = selector({
+const userSearchCoordinatesState = selector({
    key: "userSearchCoordinatesState",
    get: async ({ get }) => {
       const search = get(userSearchLocationState);
@@ -106,7 +105,6 @@ export function useChangeLocationFromString() {
    useEffect(() => {
       setLocation(coordinates);
    }, [search]);
-
 }
 
 type rawPet = {
@@ -123,7 +121,7 @@ export const petsInAreaState = selector({
       if (!location.lat) return [];
       else {
          const response = await fetch(
-            `http://localhost:3002/reports/location?lat=${location.lat}&lng=${location.lng}`
+            `${backendURL}/reports/location?lat=${location.lat}&lng=${location.lng}`
          );
          const data = await response.json();
          const parsedPets = await Promise.all(
