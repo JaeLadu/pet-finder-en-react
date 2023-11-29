@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Caption } from "ui/caption/caption";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapBox } from "components/mapbpx/Mapbox";
 import css from "./chooseLocation.css";
 import { Button } from "components/button/button/button";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { useChangeLocationFromString, userSearchLocationState } from "hooks";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+   userLocationState,
+   userSearchCoordinatesState,
+   userSearchLocationState,
+} from "hooks";
 import { TextInput } from "components/textInput/textInput";
 
 export function ChooseLocation() {
    const navigate = useNavigate();
    const setSearch = useSetRecoilState(userSearchLocationState);
-   useChangeLocationFromString();
+   const searchCoords = useRecoilValue(userSearchCoordinatesState);
+   const setLocation = useSetRecoilState(userLocationState);
+   const [mapboxProps, setMapboxProps] = useState([]);
+
+   useEffect(() => {
+      if (searchCoords.lat) {
+         setMapboxProps([searchCoords.lat, searchCoords.lng]);
+      }
+   }, [searchCoords]);
    return (
       <div className={css.container}>
          <Caption text="Buscá una dirección o punto geográfico cercano a donde estás." />
@@ -43,7 +55,12 @@ export function ChooseLocation() {
             <TextInput name="busqueda" />
             <Button handleClick={() => ""} text="Buscar" />
             <div className={css.mapcontainer}>
-               <MapBox />
+               <MapBox
+                  handleClick={(e) => {
+                     setLocation(e);
+                  }}
+                  center={mapboxProps}
+               />
             </div>
             <div className={css.button}></div>
          </form>

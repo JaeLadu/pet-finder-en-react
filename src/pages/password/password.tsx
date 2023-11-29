@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Title } from "ui/title/title";
 import css from "./password.css";
 import { PasswordInput } from "components/passwordInput/passwordInput";
+import { useCheckActiveUser } from "hooks";
 
 // terminar falta conexión con backend
 export function Password() {
+   useCheckActiveUser();
    const navigate = useNavigate();
    return (
       <div className={css.root}>

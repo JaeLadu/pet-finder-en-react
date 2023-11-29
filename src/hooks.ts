@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
 const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
@@ -75,7 +76,7 @@ export const userSearchLocationState = atom({
    default: "",
 });
 
-const userSearchCoordinatesState = selector({
+export const userSearchCoordinatesState = selector({
    key: "userSearchCoordinatesState",
    get: async ({ get }) => {
       const search = get(userSearchLocationState);
@@ -162,3 +163,21 @@ export const currentPet = selector({
       return wantedPet;
    },
 });
+
+export const targetLocationState = atom({
+   key: "targetLocation",
+   default: "",
+});
+export function useCheckActiveUser() {
+   const setTargetLocation = useSetRecoilState(targetLocationState);
+   const location = useLocation();
+   const token = useRecoilValue(userTokenState);
+   const navigate = useNavigate();
+   useEffect(() => {
+      setTargetLocation(location.pathname);
+
+      if (!token) {
+         navigate("/login");
+      }
+   }, [token]);
+}

@@ -6,7 +6,6 @@ import css from "./petCard.css";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { reportFormState, selectedPetId } from "hooks";
-import { ReportForm } from "components/reportForm/reportForm";
 
 type props = {
    id: number;
@@ -22,8 +21,10 @@ export function PetCard({ id, img, name, location, own = false }: props) {
    const setPetId = useSetRecoilState(selectedPetId);
 
    const editButton = (
-      // modificar pagina a la que va con id del report
-      <Button text="Editar" handleClick={() => navigate("create-report")} />
+      <Button
+         text="Editar"
+         handleClick={() => navigate(`create-report/${id}`)}
+      />
    );
    const reportButton = (
       <Button

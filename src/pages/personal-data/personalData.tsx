@@ -4,8 +4,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Title } from "ui/title/title";
 import css from "./personalData.css";
+import { useCheckActiveUser } from "hooks";
 
 export function PersonalData() {
+   useCheckActiveUser()
    const navigate = useNavigate();
    return (
       <div className={css.root}>

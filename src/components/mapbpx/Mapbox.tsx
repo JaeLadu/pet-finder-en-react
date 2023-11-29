@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ReactMapboxGl, { Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useRecoilState } from "recoil";
-import { userLocationState } from "hooks";
 
 //mapbox token
 const ACCESS_TOKEN =
    "pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A";
 
-export function MapBox() {
+type props = {
+   center?: number[];
+   handleClick: (e: any) => any;
+};
+export function MapBox({ center, handleClick }: props) {
    const Map = ReactMapboxGl({
       accessToken: ACCESS_TOKEN,
    });
@@ -16,18 +18,18 @@ export function MapBox() {
    const [location, setLocation] = useState([
       -64.50775531330464, -31.42018385939361,
    ]);
-   const [userLocation, setUserLocation] = useRecoilState(userLocationState);
 
    useEffect(() => {
-      if (userLocation.lat) {
-         setLocation([Number(userLocation.lat), Number(userLocation.lng)]);
+      if (center && center[0]) {
+         setLocation(center);
       }
-   }, [userLocation]);
-
+   }, [center]);
    return (
       <Map
          onClick={(m, e: any) => {
-            setUserLocation({ lng: e.lngLat.lat, lat: e.lngLat.lng });
+            const parsedLocationObj = { lat: e.lngLat.lng, lng: e.lngLat.lat }; //For some reason de event property returns lat and lng inverted
+            setLocation([parsedLocationObj.lat, parsedLocationObj.lng]);
+            handleClick(parsedLocationObj);
          }}
          style="mapbox://styles/mapbox/streets-v9"
          containerStyle={{

@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { ReportForm } from "components/reportForm/reportForm";
 
 function Home() {
-   //modificar
-   //Chequear si a la verificación de location y a que página renderizar lo puede hacer directamente el router
    const navigate = useNavigate();
    const locationExists = useRecoilValue(userLocationState).lat;
    const pets = useRecoilValue(petsInAreaState);

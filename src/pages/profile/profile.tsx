@@ -1,11 +1,13 @@
 import { Button } from "components/button/button/button";
 import { SessionToggle } from "components/sessionToggle/sessionToggle";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Title } from "ui/title/title";
 import css from "./profile.css";
+import { useCheckActiveUser } from "hooks";
 
 export function Profile() {
+   useCheckActiveUser();
    const navigate = useNavigate();
    return (
       <div className={css.root}>

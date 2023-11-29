@@ -5,9 +5,11 @@ import { dropzone, img, thumbnail, thumbnailContainer } from "./dropzoneStyles";
 
 type props = {
    handleFile?: (file: any) => any;
+   preview?: string;
 };
-export function DropzoneComp({ handleFile = () => {} }: props) {
-   const [file, setFile] = useState({ preview: "", dataURL: "", name: "" });
+export function DropzoneComp({ handleFile = () => {}, preview }: props) {
+   const [file, setFile] = useState({ preview, dataURL: "", name: "" });
+
    useEffect(() => {
       // Necesario para que las thumbnails no generen errores en dropzone
       return URL.revokeObjectURL(file.preview);
@@ -32,11 +34,11 @@ export function DropzoneComp({ handleFile = () => {} }: props) {
                   })}
                >
                   <input {...getInputProps()} />
-                  {file.dataURL ? (
+                  {file.dataURL || preview ? (
                      <div style={thumbnailContainer} key={file.name}>
                         <div style={thumbnail}>
                            <img
-                              src={file.preview}
+                              src={preview || file.preview}
                               style={img}
                               // Necesario para que las thumbnails no generen errores en dropzone
                               onLoad={() => {
