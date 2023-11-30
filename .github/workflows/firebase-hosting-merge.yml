@@ -4,6 +4,7 @@
 name: Deploy to Firebase Hosting on merge
 "on":
    push:
+      env: BACKEND_URL: pet-finder-rub4.onrender.com
       branches:
          - main
 jobs:
