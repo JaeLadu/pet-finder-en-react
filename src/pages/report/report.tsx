@@ -65,8 +65,6 @@ export function CreateReport() {
 
    return (
       <div className={css.root}>
-         <Link to={"/createreport/1"}>R1</Link>
-
          <Title text="Reportar mascota" />
          <form
             onSubmit={(e: FormEvent<HTMLFormElement>) => {

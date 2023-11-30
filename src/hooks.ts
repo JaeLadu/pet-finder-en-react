@@ -98,16 +98,16 @@ export const userSearchCoordinatesState = selector({
    },
 });
 
-export function useChangeLocationFromString() {
-   const setLocation = useSetRecoilState(userLocationState);
-   const search = useRecoilValue(userSearchLocationState);
-   const coordinates = useRecoilValue(userSearchCoordinatesState);
+// modificar borrar si no se usa
+// export function useChangeLocationFromString() {
+//    const setLocation = useSetRecoilState(userLocationState);
+//    const search = useRecoilValue(userSearchLocationState);
+//    const coordinates = useRecoilValue(userSearchCoordinatesState);
 
-   useEffect(() => {
-      setLocation(coordinates);
-   }, [search]);
-}
-
+//    useEffect(() => {
+//       setLocation(coordinates);
+//    }, [search]);
+// }
 type rawPet = {
    id: number;
    name: string;
@@ -115,6 +115,27 @@ type rawPet = {
    lat: string;
    lng: string;
 };
+
+async function parsePets(pets: rawPet[]) {
+   return await Promise.all(
+      pets.map(async (pet) => {
+         const areaResponse = await fetch(
+            //usa la API de mapbox para obtener el nombre del area usando coordenadas
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${pet.lng},${pet.lat}.json?access_token=pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A`
+         );
+         const areaData = await areaResponse.json();
+
+         return {
+            id: pet.id,
+            name: pet.name,
+            img: pet.imageUrl,
+            location: areaData.features[2]?.place_name,
+            own: false,
+         };
+      })
+   );
+}
+
 export const petsInAreaState = selector({
    key: "petsInAreaState",
    get: async ({ get }) => {
@@ -125,23 +146,27 @@ export const petsInAreaState = selector({
             `${backendURL}/reports/location?lat=${location.lat}&lng=${location.lng}`
          );
          const data = await response.json();
-         const parsedPets = await Promise.all(
-            data.map(async (pet: rawPet) => {
-               const areaResponse = await fetch(
-                  //usa la API de mapbox para obtener el nombre del area usando coordenadas
-                  `https://api.mapbox.com/geocoding/v5/mapbox.places/${pet.lng},${pet.lat}.json?access_token=pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A`
-               );
-               const areaData = await areaResponse.json();
+         const parsedPets = parsePets(data);
+         return parsedPets;
+      }
+   },
+});
 
-               return {
-                  id: pet.id,
-                  name: pet.name,
-                  img: pet.imageUrl,
-                  location: areaData.features[2]?.place_name,
-                  own: false,
-               };
-            })
-         );
+export const userPetsState = selector({
+   key: "userPets",
+   get: async ({ get }) => {
+      const token = get(userTokenState);
+      if (!token) return [];
+      else {
+         const response = await fetch(`${backendURL}/reports`, {
+            method: "get",
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `bearer ${token}`,
+            },
+         });
+         const data = await response.json();
+         const parsedPets = parsePets(data);
          return parsedPets;
       }
    },

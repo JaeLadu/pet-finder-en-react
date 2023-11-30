@@ -38,6 +38,7 @@ export function EditReport() {
       fetchReport();
    }, [params]);
 
+   //terminar conectar backend
    useEffect(() => {
       //sends de new data to de server, once de form is submited
       if (doneFlag) {

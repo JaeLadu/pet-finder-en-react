@@ -7,13 +7,14 @@ import css from "./personalData.css";
 import { useCheckActiveUser } from "hooks";
 
 export function PersonalData() {
-   useCheckActiveUser()
+   useCheckActiveUser();
    const navigate = useNavigate();
    return (
       <div className={css.root}>
          <Title text="Datos personales" />
          <form className={css.form}>
             {/* terminar agregar placeholder con info del usuario si existe */}
+            {/* terminar conectar con el backend */}
             <div className={css.inputscontainer}>
                <TextInput name="name" text="Nombre" />
                <TextInput name="location" text="Localidad" />

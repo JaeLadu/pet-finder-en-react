@@ -14,7 +14,10 @@ function SessionToggle() {
          <div className={css.root}>
             <Caption text={userData.mail} />
             <LinkText
-               onClick={() => setUserData({ mail: "", password: "" })}
+               onClick={() => {
+                  setUserData({ mail: "", password: "" });
+                  setMenuState(false);
+               }}
                target="/"
                text="Cerrar sesión"
             />

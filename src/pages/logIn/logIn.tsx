@@ -7,6 +7,7 @@ import css from "./logIn.css";
 import { PasswordInput } from "components/passwordInput/passwordInput";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { logInDataState, targetLocationState, userTokenState } from "hooks";
+import { Caption } from "ui/caption/caption";
 
 export function LogIn() {
    const targetLocation = useRecoilValue(targetLocationState);
@@ -15,7 +16,7 @@ export function LogIn() {
    const token = useRecoilValue(userTokenState);
 
    useEffect(() => {
-      if (token) navigate(targetLocation);
+      if (token) navigate(targetLocation || "/");
    }, [token]);
 
    return (
@@ -43,6 +44,10 @@ export function LogIn() {
             </div>
             <Button text="Acceder" handleClick={() => {}} />
          </form>
+         <Caption text="No tenés cuenta?" />
+         <Link to={"/signup"}>
+            <Caption text="Registrate" />
+         </Link>
       </div>
    );
 }

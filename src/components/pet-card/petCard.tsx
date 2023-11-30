@@ -21,10 +21,7 @@ export function PetCard({ id, img, name, location, own = false }: props) {
    const setPetId = useSetRecoilState(selectedPetId);
 
    const editButton = (
-      <Button
-         text="Editar"
-         handleClick={() => navigate(`create-report/${id}`)}
-      />
+      <Button text="Editar" handleClick={() => navigate(`/editreport/${id}`)} />
    );
    const reportButton = (
       <Button

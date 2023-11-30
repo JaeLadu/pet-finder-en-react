@@ -14,6 +14,7 @@ import { LogIn } from "pages/logIn/logIn";
 import { SignUp } from "pages/sign-up/signUp";
 import { CreateReport } from "pages/report/report";
 import { EditReport } from "pages/edit-report/editReport";
+import { UserReports } from "pages/reports/reports";
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -26,7 +27,8 @@ const router = createBrowserRouter(
          <Route path="login" element={<LogIn />}></Route>
          <Route path="signup" element={<SignUp />}></Route>
          <Route path="createreport" element={<CreateReport />}></Route>
-         <Route path="/createreport/:id?" element={<EditReport />}></Route>
+         <Route path="/editreport/:id?" element={<EditReport />}></Route>
+         <Route path="/reports" element={<UserReports />}></Route>
       </Route>
    )
 );

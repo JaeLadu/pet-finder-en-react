@@ -3,9 +3,11 @@ import { PasswordInput } from "components/passwordInput/passwordInput";
 import { TextInput } from "components/textInput/textInput";
 import { logInDataState, newUserState, userTokenState } from "hooks";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Caption } from "ui/caption/caption";
 import { Title } from "ui/title/title";
+import css from "../logIn/logIn.css";
 
 export function SignUp() {
    const navigate = useNavigate();
@@ -18,9 +20,10 @@ export function SignUp() {
    }, [token]);
 
    return (
-      <div>
+      <div className={css.root}>
          <Title text="Registrate" />
          <form
+            className={css.form}
             onSubmit={(e) => {
                e.preventDefault();
                const formData = new FormData(e.target as HTMLFormElement);
@@ -43,14 +46,20 @@ export function SignUp() {
                }
             }}
          >
-            <TextInput text="Email" name="mail" />
-            <PasswordInput text="Contraseña" />
-            <PasswordInput
-               text="Repetí tu contraseña"
-               name="passwordConfirmation"
-            />
+            <div className={css.inputscontainer}>
+               <TextInput text="Email" name="mail" />
+               <PasswordInput text="Contraseña" />
+               <PasswordInput
+                  text="Repetí tu contraseña"
+                  name="passwordConfirmation"
+               />
+            </div>
             <Button handleClick={() => {}} text="Registrarme" />
          </form>
+         <Caption text="Ya tenés cuenta?" />
+         <Link to={"/login"}>
+            <Caption text="Ingresá" />
+         </Link>
       </div>
    );
 }
