@@ -13,7 +13,7 @@ import { Button } from "components/button/button/button";
 import { MapBox } from "components/mapbpx/Mapbox";
 import css from "../report/report.css";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
+const backendURL = process.env.BACKEND_URL || "http://localhost:3002/";
 
 export function EditReport() {
    useCheckActiveUser(); //redirects to login if no user token

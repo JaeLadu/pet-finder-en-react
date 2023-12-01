@@ -13,7 +13,7 @@ import {
 } from "hooks";
 import { MapBox } from "components/mapbpx/Mapbox";
 import { useNavigate } from "react-router-dom";
-const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
+const backendURL = process.env.BACKEND_URL || "http://localhost:3002/";
 
 export function CreateReport() {
    useCheckActiveUser(); //redirects to /login if there is no user token info

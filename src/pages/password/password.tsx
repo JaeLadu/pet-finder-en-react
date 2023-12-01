@@ -7,7 +7,7 @@ import { PasswordInput } from "components/passwordInput/passwordInput";
 import { useCheckActiveUser, userTokenState } from "hooks";
 import { Caption } from "ui/caption/caption";
 import { useRecoilValue } from "recoil";
-const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
+const backendURL = process.env.BACKEND_URL || "http://localhost:3002/";
 
 export function Password() {
    useCheckActiveUser();

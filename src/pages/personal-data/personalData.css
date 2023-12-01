@@ -16,3 +16,14 @@
 .inputscontainer {
    width: 100%;
 }
+.message {
+   display: none;
+}
+.messageerror {
+   display: block;
+   background-color: red;
+}
+.messageok {
+   display: block;
+   background-color: green;
+}
