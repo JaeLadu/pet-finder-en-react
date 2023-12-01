@@ -7,7 +7,7 @@ const ACCESS_TOKEN =
    "pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A";
 
 type props = {
-   center?: number[];
+   center?: { lat: number; lng: number };
    handleClick: (e: any) => any;
 };
 export function MapBox({ center, handleClick }: props) {
@@ -20,8 +20,8 @@ export function MapBox({ center, handleClick }: props) {
    ]);
 
    useEffect(() => {
-      if (center && center[0]) {
-         setLocation(center);
+      if (center.lat != 0) {
+         setLocation([center.lat, center.lng]);
       }
    }, [center]);
    return (

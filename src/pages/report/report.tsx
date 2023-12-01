@@ -12,26 +12,32 @@ import {
    userTokenState,
 } from "hooks";
 import { MapBox } from "components/mapbpx/Mapbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function CreateReport() {
    useCheckActiveUser(); //redirects to /login if there is no user token info
+   const navigate = useNavigate();
    const [location, setLocation] = useState({ lat: "", lng: "" });
    const token = useRecoilValue(userTokenState);
    const [imageURL, setImageURL] = useState("");
    const [reportObject, setReportObject] = useState({});
-   const [backendResponse, setBackendResponse] = useState({});
-   let readyToSendFlag = false;
+   const [backendResponse, setBackendResponse] = useState(
+      {} as { reportId: number; message: string; error: string; owner: boolean }
+   );
+   const [doneMessage, setDoneMessage] = useState("");
+   const [doneMessageStyle, setDoneMessageStyle] = useState(css.donemessage);
+
+   let [doneFlag, setDoneFlag] = useState(false);
    let inputString = "";
 
    //map neccesary hooks, searching locations and clicks moving marker
    const setSearch = useSetRecoilState(userSearchLocationState);
    const searchCoords = useRecoilValue(userSearchCoordinatesState);
-   const [mapboxProps, setMapboxProps] = useState([]);
+   const [mapboxProps, setMapboxProps] = useState({ lat: 0, lng: 0 });
    useEffect(() => {
       if (searchCoords.lat) {
-         setMapboxProps([searchCoords.lat, searchCoords.lng]);
+         setMapboxProps({ ...searchCoords });
       }
    }, [searchCoords]);
 
@@ -53,14 +59,25 @@ export function CreateReport() {
    }
 
    useEffect(() => {
-      if (readyToSendFlag) {
+      if (doneFlag) {
          sendReport();
       }
    }, [reportObject]);
 
-   //modificar mostrar mensaje con la respuesta del back
    useEffect(() => {
-      console.log(backendResponse);
+      if (backendResponse.reportId) {
+         setDoneMessage(backendResponse.message);
+         const finalMessageStyle = [doneMessageStyle];
+         finalMessageStyle.push(css.showok);
+         setDoneMessageStyle(finalMessageStyle.join(" "));
+         setTimeout(() => navigate("/reports"), 1000);
+      }
+      if (backendResponse.error) {
+         setDoneMessage(backendResponse.message);
+         const finalMessageStyle = [doneMessageStyle];
+         finalMessageStyle.push(css.showerror);
+         setDoneMessageStyle(finalMessageStyle.join(" "));
+      }
    }, [backendResponse]);
 
    return (
@@ -74,14 +91,17 @@ export function CreateReport() {
                ).value;
 
                if (location.lat && imageURL && name) {
-                  (readyToSendFlag = true),
-                     setReportObject({
-                        ...location,
-                        dataURL: imageURL,
-                        name: name,
-                     });
+                  setReportObject({
+                     ...location,
+                     dataURL: imageURL,
+                     name: name,
+                  });
+                  setDoneFlag(true);
                } else {
-                  console.log("falta algo");
+                  setDoneMessage("Falta algo");
+                  const finalMessageStyle = [doneMessageStyle];
+                  finalMessageStyle.push(css.showerror);
+                  setDoneMessageStyle(finalMessageStyle.join(" "));
                }
             }}
             className={css.form}
@@ -108,6 +128,8 @@ export function CreateReport() {
                />
             </div>
             <MapBox handleClick={(e) => setLocation(e)} center={mapboxProps} />
+            <span className={...doneMessageStyle}>{doneMessage}</span>
+
             <div className={css.button}>
                <Button color="green" text="Reportar mascota" />
             </div>

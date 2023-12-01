@@ -13,3 +13,14 @@
    margin: 15px 0px;
    width: 100%;
 }
+.donemessage {
+   display: none;
+}
+.showok {
+   display: block;
+   background-color: greenyellow;
+}
+.showerror {
+   display: block;
+   background-color: red;
+}

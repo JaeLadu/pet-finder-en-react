@@ -2,9 +2,10 @@ import {
    useCheckActiveUser,
    userSearchCoordinatesState,
    userSearchLocationState,
+   userTokenState,
 } from "hooks";
 import React, { FormEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "ui/title/title";
 import { TextInput } from "components/textInput/textInput";
 import { DropzoneComp } from "components/dropzoneComp/dropzoneComp";
@@ -15,16 +16,26 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function EditReport() {
-   useCheckActiveUser();
+   // useCheckActiveUser();
+   const navigate = useNavigate();
    const params = useParams();
-   const [petData, setPetData] = useState({
-      name: "",
-      imageUrl: "",
-      lat: 0,
-      lng: 0,
-      id: 0,
-   });
+   const [petData, setPetData] = useState(
+      {} as {
+         name: string;
+         dataURL: string;
+         imageUrl: string;
+         lat: number;
+         lng: number;
+         id: number;
+      }
+   );
    const [doneFlag, setDoneFlag] = useState(false);
+   const token = useRecoilValue(userTokenState);
+   const [backendResponse, setBackendResponse] = useState(
+      {} as { updated: boolean; message: string; error: string; owner: boolean }
+   );
+   const [doneMessage, setDoneMessage] = useState("");
+   const [doneMessageStyle, setDoneMessageStyle] = useState(css.donemessage);
 
    let inputString = ""; //necesary to prevent page from updating on every keypress and using the complete data once te user clicks search/buscar
 
@@ -33,36 +44,68 @@ export function EditReport() {
       async function fetchReport() {
          const response = await fetch(`${backendURL}/report/${params.id}`);
          const data = await response.json();
-         setPetData(data.report); //El back devuelve un objeto que adentro tiene otro objeto report, el cual tiene la data que necesito
+         setPetData({ ...data.report, dataURL: data.report.imageUrl }); //El back devuelve un objeto que adentro tiene otro objeto report, el cual tiene la data que necesito
+         setMapboxProps({ lat: data.report.lat, lng: data.report.lng });
       }
       fetchReport();
    }, [params]);
 
-   //terminar conectar backend
    useEffect(() => {
       //sends de new data to de server, once de form is submited
-      if (doneFlag) {
-         console.log(petData);
+      async function editReport() {
+         try {
+            const response = await fetch(`${backendURL}/report/${petData.id}`, {
+               method: "PATCH",
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `bearer ${token}`,
+               },
+               body: JSON.stringify(petData),
+            });
+            const data = await response.json();
+            setBackendResponse(data);
+         } catch (error) {
+            console.log(error);
+         }
       }
-   }, [petData]);
+
+      if (doneFlag) {
+         editReport();
+         setDoneFlag(false);
+      }
+   }, [petData, doneFlag]);
+
+   useEffect(() => {
+      if (backendResponse.updated) {
+         setDoneMessage(backendResponse.message);
+         const finalMessageStyle = [doneMessageStyle];
+         finalMessageStyle.push(css.showok);
+         setDoneMessageStyle(finalMessageStyle.join(" "));
+         setTimeout(() => navigate("/reports"), 1000);
+      }
+      if (backendResponse.error) {
+         setDoneMessage(backendResponse.message);
+         const finalMessageStyle = [doneMessageStyle];
+         finalMessageStyle.push(css.showerror);
+         setDoneMessageStyle(finalMessageStyle.join(" "));
+      }
+   }, [backendResponse]);
 
    //map neccesary hooks, searching locations and clicks moving marker
    const setSearch = useSetRecoilState(userSearchLocationState);
    const searchCoords = useRecoilValue(userSearchCoordinatesState);
-   const [mapboxProps, setMapboxProps] = useState([]);
+   const [mapboxProps, setMapboxProps] = useState({ lat: 0, lng: 0 });
    useEffect(() => {
       if (searchCoords.lat) {
-         setMapboxProps([searchCoords.lat, searchCoords.lng]);
+         setMapboxProps({ ...searchCoords });
       }
-      if (petData.lat) {
-         setMapboxProps([petData.lng, petData.lat]);
-      }
-   }, [searchCoords, petData.lat]);
+   }, [searchCoords]);
 
-   return (
+   return petData.name ? (
       <div className={css.root}>
          <Title text={`Editar reporte de ${petData.name}`} />
          <form
+            className={css.form}
             onSubmit={(e: FormEvent<HTMLFormElement>) => {
                e.preventDefault();
                const name = (
@@ -75,12 +118,15 @@ export function EditReport() {
 
                setDoneFlag(true);
             }}
-            className={css.form}
          >
             <TextInput text="Nombre" name="name" placeholder={petData.name} />
             <DropzoneComp
                handleFile={(file) => {
-                  setPetData({ ...petData, imageUrl: file.dataURL });
+                  setPetData({
+                     ...petData,
+                     dataURL: file.dataURL,
+                     imageUrl: file.dataURL,
+                  });
                }}
                preview={petData.imageUrl}
             />
@@ -100,9 +146,13 @@ export function EditReport() {
                />
             </div>
             <MapBox
-               handleClick={(e) => setPetData({ ...petData, ...e })}
+               handleClick={(e) => {
+                  setPetData({ ...petData, ...e });
+                  console.log(petData);
+               }}
                center={mapboxProps}
             />
+            <span className={...doneMessageStyle}>{doneMessage}</span>
             <div className={css.button}>
                <Button
                   color="green"
@@ -111,5 +161,7 @@ export function EditReport() {
             </div>
          </form>
       </div>
+   ) : (
+      <div>Cargando</div>
    );
 }

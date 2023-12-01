@@ -121,7 +121,7 @@ async function parsePets(pets: rawPet[]) {
       pets.map(async (pet) => {
          const areaResponse = await fetch(
             //usa la API de mapbox para obtener el nombre del area usando coordenadas
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${pet.lng},${pet.lat}.json?access_token=pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A`
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${pet.lat},${pet.lng}.json?access_token=pk.eyJ1IjoiamFlbGFkdSIsImEiOiJjbGpsbXB4NzEwMmNtM2VuaTFnaWVpOXNhIn0.izRPV_1_x5v_347iKQPD3A`
          );
          const areaData = await areaResponse.json();
 
