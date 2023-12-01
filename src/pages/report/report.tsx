@@ -12,7 +12,7 @@ import {
    userTokenState,
 } from "hooks";
 import { MapBox } from "components/mapbpx/Mapbox";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function CreateReport() {
@@ -44,7 +44,7 @@ export function CreateReport() {
    useEffect(() => {
       async function sendReport() {
          try {
-            const response = await fetch(`${backendURL}/report`, {
+            const response = await fetch(`${backendURL}report`, {
                method: "post",
                headers: {
                   "Content-Type": "application/json",

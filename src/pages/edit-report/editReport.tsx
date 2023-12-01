@@ -43,7 +43,7 @@ export function EditReport() {
    useEffect(() => {
       //gets the report number from params and fetches its data, then y sets a state with that data
       async function fetchReport() {
-         const response = await fetch(`${backendURL}/report/${params.id}`);
+         const response = await fetch(`${backendURL}report/${params.id}`);
          const data = await response.json();
          setPetData({ ...data.report, dataURL: data.report.imageUrl }); //El back devuelve un objeto que adentro tiene otro objeto report, el cual tiene la data que necesito
          setMapboxProps({ lat: data.report.lat, lng: data.report.lng });
@@ -55,7 +55,7 @@ export function EditReport() {
       //sends de new data to de server, once de form is submited
       async function editReport() {
          try {
-            const response = await fetch(`${backendURL}/report/${petData.id}`, {
+            const response = await fetch(`${backendURL}report/${petData.id}`, {
                method: "PATCH",
                headers: {
                   "Content-Type": "application/json",

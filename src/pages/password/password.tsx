@@ -29,7 +29,7 @@ export function Password() {
 
    useEffect(() => {
       async function updatePass() {
-         const response = await fetch(`${backendURL}/auth`, {
+         const response = await fetch(`${backendURL}auth`, {
             method: "PATCH",
             headers: {
                "Content-Type": "application/json",

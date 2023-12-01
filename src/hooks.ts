@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
-const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
+const backendURL = process.env.BACKEND_URL || "http://localhost:3002/";
 
 //mapbox token
 const ACCESS_TOKEN =
@@ -37,7 +37,7 @@ export const userTokenState = selector({
 
       if (!userData.mail) return response;
       if (newUser) {
-         const result = await fetch(`${backendURL}/auth/signup`, {
+         const result = await fetch(`${backendURL}auth/signup`, {
             method: "post",
             headers: {
                "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const userTokenState = selector({
          const data = await result.json();
          response = data.token;
       } else {
-         const result = await fetch(`${backendURL}/auth/signin`, {
+         const result = await fetch(`${backendURL}auth/signin`, {
             method: "post",
             headers: {
                "Content-Type": "application/json",
@@ -143,7 +143,7 @@ export const petsInAreaState = selector({
       if (!location.lat) return [];
       else {
          const response = await fetch(
-            `${backendURL}/reports/location?lat=${location.lat}&lng=${location.lng}`
+            `${backendURL}reports/location?lat=${location.lat}&lng=${location.lng}`
          );
          const data = await response.json();
          const parsedPets = parsePets(data);
@@ -158,7 +158,7 @@ export const userPetsState = selector({
       const token = get(userTokenState);
       if (!token) return [];
       else {
-         const response = await fetch(`${backendURL}/reports`, {
+         const response = await fetch(`${backendURL}reports`, {
             method: "get",
             headers: {
                "Content-Type": "application/json",
