@@ -16,7 +16,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 const backendURL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function EditReport() {
-   // useCheckActiveUser();
+   useCheckActiveUser(); //redirects to login if no user token
    const navigate = useNavigate();
    const params = useParams();
    const [petData, setPetData] = useState(
@@ -29,12 +29,13 @@ export function EditReport() {
          id: number;
       }
    );
-   const [doneFlag, setDoneFlag] = useState(false);
    const token = useRecoilValue(userTokenState);
    const [backendResponse, setBackendResponse] = useState(
       {} as { updated: boolean; message: string; error: string; owner: boolean }
    );
-   const [doneMessage, setDoneMessage] = useState("");
+
+   const [doneFlag, setDoneFlag] = useState(false); //used to confirm the user wants to submit the form
+   const [doneMessage, setDoneMessage] = useState(""); //message to show after submit, comes from backend
    const [doneMessageStyle, setDoneMessageStyle] = useState(css.donemessage);
 
    let inputString = ""; //necesary to prevent page from updating on every keypress and using the complete data once te user clicks search/buscar
@@ -76,6 +77,7 @@ export function EditReport() {
    }, [petData, doneFlag]);
 
    useEffect(() => {
+      //shows or hides result from submiting. If backend responds ok, also rediects
       if (backendResponse.updated) {
          setDoneMessage(backendResponse.message);
          const finalMessageStyle = [doneMessageStyle];

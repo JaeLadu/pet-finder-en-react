@@ -23,7 +23,7 @@ export function CreateReport() {
    const [imageURL, setImageURL] = useState("");
    const [reportObject, setReportObject] = useState({});
    const [backendResponse, setBackendResponse] = useState(
-      {} as { reportId: number; message: string; error: string; owner: boolean }
+      {} as { reportId: number; message: string; error: string }
    );
    const [doneMessage, setDoneMessage] = useState("");
    const [doneMessageStyle, setDoneMessageStyle] = useState(css.donemessage);
@@ -41,24 +41,23 @@ export function CreateReport() {
       }
    }, [searchCoords]);
 
-   async function sendReport() {
-      try {
-         const response = await fetch(`${backendURL}/report`, {
-            method: "post",
-            headers: {
-               "Content-Type": "application/json",
-               Authorization: `bearer ${token}`,
-            },
-            body: JSON.stringify(reportObject),
-         });
-         const data = await response.json();
-         setBackendResponse(data);
-      } catch (error) {
-         console.log(error);
-      }
-   }
-
    useEffect(() => {
+      async function sendReport() {
+         try {
+            const response = await fetch(`${backendURL}/report`, {
+               method: "post",
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `bearer ${token}`,
+               },
+               body: JSON.stringify(reportObject),
+            });
+            const data = await response.json();
+            setBackendResponse(data);
+         } catch (error) {
+            console.log(error);
+         }
+      }
       if (doneFlag) {
          sendReport();
       }
