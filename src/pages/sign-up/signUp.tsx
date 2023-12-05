@@ -2,7 +2,7 @@ import { Button } from "components/button/button/button";
 import { PasswordInput } from "components/passwordInput/passwordInput";
 import { TextInput } from "components/textInput/textInput";
 import { logInDataState, newUserState, userTokenState } from "hooks";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Caption } from "ui/caption/caption";
@@ -14,10 +14,22 @@ export function SignUp() {
    const setNewUser = useSetRecoilState(newUserState);
    const setUserData = useSetRecoilState(logInDataState);
    const token = useRecoilValue(userTokenState);
+   const [dataSent, setDataSent] = useState(false);
+
+   const [inputsClass, setInputsClass] = useState(css.inputscontainer);
+   const [errorMessage, setErrorMessage] = useState("");
+   const [messageClass, setMessageClass] = useState(css.message);
 
    useEffect(() => {
-      if (token) navigate("/profile");
-   }, [token]);
+      if (dataSent && token) {
+         setInputsClass(css.inputscontainer);
+         setErrorMessage("Usuario creado");
+         setMessageClass(css.messageok);
+         setTimeout(() => {
+            navigate("/profile");
+         }, 1000);
+      }
+   }, [token, dataSent]);
 
    return (
       <div className={css.root}>
@@ -40,13 +52,15 @@ export function SignUp() {
                      mail: data.mail?.toString() || "",
                      password: data.password?.toString() || "",
                   });
+                  setDataSent(true);
                } else {
-                  //terminar agregar algún cartelito para esto
-                  console.log("poné bien las contraseñas gil");
+                  setInputsClass(`${css.inputscontainer} ${css.inputserror}`);
+                  setErrorMessage("Las contraseñas no coinciden");
+                  setMessageClass(css.messageerror);
                }
             }}
          >
-            <div className={css.inputscontainer}>
+            <div className={inputsClass}>
                <TextInput text="Email" name="mail" />
                <PasswordInput text="Contraseña" />
                <PasswordInput
@@ -54,6 +68,10 @@ export function SignUp() {
                   name="passwordConfirmation"
                />
             </div>
+            <span className={messageClass}>
+               <Caption text={errorMessage} />
+            </span>
+
             <Button handleClick={() => {}} text="Registrarme" />
          </form>
          <Caption text="Ya tenés cuenta?" />

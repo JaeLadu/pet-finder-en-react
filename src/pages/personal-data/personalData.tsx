@@ -76,7 +76,6 @@ export function PersonalData() {
 
    return (
       <div className={css.root}>
-         {/* terminar conectar con el backend */}
          <Title text="Datos personales" />
          <form
             className={css.form}

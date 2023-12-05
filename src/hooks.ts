@@ -98,16 +98,6 @@ export const userSearchCoordinatesState = selector({
    },
 });
 
-// modificar borrar si no se usa
-// export function useChangeLocationFromString() {
-//    const setLocation = useSetRecoilState(userLocationState);
-//    const search = useRecoilValue(userSearchLocationState);
-//    const coordinates = useRecoilValue(userSearchCoordinatesState);
-
-//    useEffect(() => {
-//       setLocation(coordinates);
-//    }, [search]);
-// }
 type rawPet = {
    id: number;
    name: string;

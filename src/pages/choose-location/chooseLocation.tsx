@@ -18,9 +18,10 @@ export function ChooseLocation() {
    const setSearch = useSetRecoilState(userSearchLocationState);
    const searchCoords = useRecoilValue(userSearchCoordinatesState);
    const setLocation = useSetRecoilState(userLocationState);
-   const [mapboxProps, setMapboxProps] = useState(
-      {} as { lat: number; lng: number }
-   );
+   const [mapboxProps, setMapboxProps] = useState({ lat: 0, lng: 0 } as {
+      lat: number;
+      lng: number;
+   });
 
    useEffect(() => {
       if (searchCoords.lat) {
